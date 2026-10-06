@@ -1,0 +1,11 @@
+repositories:
+    ground_vehicle_twist_odometry:
+        type: git
+        url: https://github.com/jfrascon/ground_vehicle_twist_odometry.git
+        version: ac95d9b9250fbe0d9f0f4ce2dd6b30eb3600305f 
+        #exclude: [] # list of repos files inside repository_path to exclude (optional)    
+    ros2_launch_helpers:
+        type: git
+        url: https://github.com/jfrascon/ros2_launch_helpers.git
+        version: 8b2741affd77b889e5dbcf38840712351f691c5a
+        #exclude: [] # list of repos files inside repository_path to exclude (optional)
