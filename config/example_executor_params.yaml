@@ -1,0 +1,4 @@
+/**/ground_vehicle_motion_executor:
+  ros__parameters:
+    profile_file: "$(find-pkg-share ground_vehicle_motion_tester)/config/example_straight_forward.yaml"
+    frequency: 50.0

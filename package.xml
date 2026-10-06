@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>ground_vehicle_motion_tester</name>
+  <version>0.1.0</version>
+  <description>Velocity profile validation, visualization, and execution for ground vehicle tests</description>
+  <maintainer email="jfrascon@gmail.com">Juan Francisco Rascon Crespo</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>yaml-cpp</depend>
+  <depend>ground_vehicle_twist_odometry</depend>
+  <depend>libqcustomplot-dev</depend>
+  <depend>qtbase5-dev</depend>
+  <depend>geometry_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>rcl_interfaces</depend>
+
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ros2_launch_helpers</exec_depend>
+
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+  <test_depend>ament_cmake_clang_format</test_depend>
+  <test_depend>ament_cmake_cpplint</test_depend>
+  <test_depend>ament_cmake_cppcheck</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>ament_cmake_flake8</test_depend>
+  <test_depend>ament_cmake_pep257</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>rcl</test_depend>
+  <test_depend>python3-yaml</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

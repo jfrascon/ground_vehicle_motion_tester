@@ -1,0 +1,89 @@
+limits:
+  x:
+    a_max_abs: 0.25
+    v_max_abs: 0.5
+  y:
+    a_max_abs: 0.0
+    v_max_abs: 0.0
+  z:
+    alpha_max_abs: 0.0
+    w_max_abs: 0.0
+profiles:
+  - T: 4.0
+    x:
+      a: 0.25
+      v_init: 0.0
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  - T: 2.0
+    x:
+      a: -0.25
+      v_init: 0.5
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  - T: 1.0
+    x:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  - T: 4.0
+    x:
+      a: -0.25
+      v_init: 0.0
+      v_end: -0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  - T: 2.0
+    x:
+      a: 0.25
+      v_init: -0.5
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  - T: 1.0
+    x:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0

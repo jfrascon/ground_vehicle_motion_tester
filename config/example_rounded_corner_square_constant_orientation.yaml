@@ -1,0 +1,144 @@
+# Follow a rounded square using longitudinal and lateral body velocities without rotating.
+# Each corner changes both velocities linearly, producing a parabolic rounded corner.
+# The first straight covers 1.5 m; final braking covers the remaining 0.5 m of that side.
+# Each of the other three straight portions covers 2 m at 0.5 m/s.
+# Each corner shifts position by 0.5 m along each of its two active directions.
+# Yaw rate stays zero, so every orientation arrow points in the initial robot direction.
+# Final braking takes 2 s. The last second holds zero velocities before publishing stops.
+limits:
+  x:
+    a_max_abs: 0.25
+    v_max_abs: 0.5
+  y:
+    a_max_abs: 0.25
+    v_max_abs: 0.5
+  z:
+    alpha_max_abs: 0.0
+    w_max_abs: 0.0
+profiles:
+  # Accelerate in X, then hold forward speed for 2 s.
+  - T: 4.0
+    x:
+      a: 0.25
+      v_init: 0.0
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Round the corner from X forward to positive Y.
+  - T: 2.0
+    x:
+      a: -0.25
+      v_init: 0.5
+      v_end: 0.0
+    y:
+      a: 0.25
+      v_init: 0.0
+      v_end: 0.5
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Translate along positive Y.
+  - T: 4.0
+    x:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Round the corner from positive Y to X backward.
+  - T: 2.0
+    x:
+      a: -0.25
+      v_init: 0.0
+      v_end: -0.5
+    y:
+      a: -0.25
+      v_init: 0.5
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Translate along negative X.
+  - T: 4.0
+    x:
+      a: 0.0
+      v_init: -0.5
+      v_end: -0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Round the corner from X backward to negative Y.
+  - T: 2.0
+    x:
+      a: 0.25
+      v_init: -0.5
+      v_end: 0.0
+    y:
+      a: -0.25
+      v_init: 0.0
+      v_end: -0.5
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Translate along negative Y.
+  - T: 4.0
+    x:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: -0.5
+      v_end: -0.5
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Round the corner from negative Y to X forward.
+  - T: 2.0
+    x:
+      a: 0.25
+      v_init: 0.0
+      v_end: 0.5
+    y:
+      a: 0.25
+      v_init: -0.5
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Brake to complete the starting side, then hold at rest for 1 s.
+  - T: 3.0
+    x:
+      a: -0.25
+      v_init: 0.5
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0

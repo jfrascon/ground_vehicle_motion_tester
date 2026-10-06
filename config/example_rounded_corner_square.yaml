@@ -1,0 +1,213 @@
+# Follow a closed square with rounded corners using forward speed and positive yaw rate.
+# The initial and final ramps each cover 0.5 m, completing one 1 m straight side.
+# Each other straight side covers 1 m at 0.5 m/s. Lateral body velocity stays zero.
+# Each corner ramps yaw rate from 0 to 1 rad/s, holds it, then ramps back to zero.
+# Its integrated yaw rate is pi/2 rad. Four identical corners complete one full turn.
+# The last second holds all velocities at zero before execution stops publishing.
+limits:
+  x:
+    a_max_abs: 0.25
+    v_max_abs: 0.5
+  y:
+    a_max_abs: 0.0
+    v_max_abs: 0.0
+  z:
+    alpha_max_abs: 1.0
+    w_max_abs: 1.0
+profiles:
+  # Accelerate over the first half of the starting side.
+  - T: 2.0
+    x:
+      a: 0.25
+      v_init: 0.0
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Corner 1: accelerate yaw for 1 s, then hold until T = pi/2 s.
+  - T: 1.5707963267948966
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 1.0
+      w_init: 0.0
+      w_end: 1.0
+  # Corner 1: reduce yaw rate to zero while continuing forward.
+  - T: 1.0
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: -1.0
+      w_init: 1.0
+      w_end: 0.0
+  # Straight side after corner 1.
+  - T: 2.0
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Corner 2: accelerate yaw for 1 s, then hold until T = pi/2 s.
+  - T: 1.5707963267948966
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 1.0
+      w_init: 0.0
+      w_end: 1.0
+  # Corner 2: reduce yaw rate to zero while continuing forward.
+  - T: 1.0
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: -1.0
+      w_init: 1.0
+      w_end: 0.0
+  # Straight side after corner 2.
+  - T: 2.0
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Corner 3: accelerate yaw for 1 s, then hold until T = pi/2 s.
+  - T: 1.5707963267948966
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 1.0
+      w_init: 0.0
+      w_end: 1.0
+  # Corner 3: reduce yaw rate to zero while continuing forward.
+  - T: 1.0
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: -1.0
+      w_init: 1.0
+      w_end: 0.0
+  # Straight side after corner 3.
+  - T: 2.0
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Corner 4: accelerate yaw for 1 s, then hold until T = pi/2 s.
+  - T: 1.5707963267948966
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 1.0
+      w_init: 0.0
+      w_end: 1.0
+  # Corner 4: reduce yaw rate to zero while continuing forward.
+  - T: 1.0
+    x:
+      a: 0.0
+      v_init: 0.5
+      v_end: 0.5
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: -1.0
+      w_init: 1.0
+      w_end: 0.0
+  # Decelerate over the second half of the starting side, returning to the origin.
+  - T: 2.0
+    x:
+      a: -0.25
+      v_init: 0.5
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0
+  # Keep publishing zero velocities for one second.
+  - T: 1.0
+    x:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    y:
+      a: 0.0
+      v_init: 0.0
+      v_end: 0.0
+    z:
+      alpha: 0.0
+      w_init: 0.0
+      w_end: 0.0

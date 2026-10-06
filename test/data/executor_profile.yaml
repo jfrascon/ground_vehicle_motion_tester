@@ -1,0 +1,23 @@
+limits:
+  x:
+    a_max_abs: 1.0
+    v_max_abs: 0.02
+  y:
+    a_max_abs: 0.0
+    v_max_abs: 0.0
+  z:
+    alpha_max_abs: 0.0
+    w_max_abs: 0.0
+profiles:
+  - T: 0.04
+    x: {a: 1.0, v_init: 0.0, v_end: 0.02}
+    y: {a: 0.0, v_init: 0.0, v_end: 0.0}
+    z: {alpha: 0.0, w_init: 0.0, w_end: 0.0}
+  - T: 0.04
+    x: {a: -1.0, v_init: 0.02, v_end: 0.0}
+    y: {a: 0.0, v_init: 0.0, v_end: 0.0}
+    z: {alpha: 0.0, w_init: 0.0, w_end: 0.0}
+  - T: 0.06
+    x: {a: 0.0, v_init: 0.0, v_end: 0.0}
+    y: {a: 0.0, v_init: 0.0, v_end: 0.0}
+    z: {alpha: 0.0, w_init: 0.0, w_end: 0.0}
