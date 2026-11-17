@@ -9,7 +9,7 @@ The validator detects incorrect fields, exceeded velocity or acceleration bounds
 ## Resources
 
 - The profile validator checks the YAML fields, velocity and acceleration limits, movement durations, and continuity before a test is previewed or executed.
-- `ground_vehicle_motion_plotter` previews the velocity and acceleration profiles and the ideal trajectory in a standalone Qt desktop application.
+- `ground_vehicle_motion_plotter` previews the velocity and acceleration profiles and the ideal trajectory in a standalone Qt desktop application, and exports either figure to PNG with optional headless operation.
 - `ground_vehicle_motion_executor_node` publishes the configured velocity commands in ROS 2. [launch/ground_vehicle_motion_executor.launch.py](launch/ground_vehicle_motion_executor.launch.py) starts it with an executor parameter file and a robot namespace.
 - The [example profiles](#1-define-your-test) provide straight, lateral, diagonal, rotational, circular, and square motion tests. [config/example_executor_params.yaml](config/example_executor_params.yaml) configures the ROS executor.
 - [doc/design.md](doc/design.md) describes the design and the complete YAML profile contract, while [deps.repos](deps.repos) lists the pinned source dependencies.
@@ -100,11 +100,24 @@ The example command above produces these figures.
 
 Drag a graph to pan and use the mouse wheel to zoom. Close both windows to exit. The program runs as a Qt desktop application. It requires a graphical session to display the figures.
 
+Use `--save-vel-profile <path.png>` to save the velocity and acceleration figure, `--save-trajectory <path.png>` to save the XY trajectory, or both options to save both figures. Saving and display are independent: the program still opens both windows after exporting unless `--no-show` is supplied. Output filenames must end in `.png`, their parent directories must already exist, and existing files at those paths are overwritten. The two figures must use different output paths.
+
+For example, export both figures without opening windows:
+
+```bash
+ground_vehicle_motion_plotter ground_vehicle_motion_tester/config/example_rounded_corner_square_constant_orientation.yaml \
+  --save-vel-profile velocities.png \
+  --save-trajectory trajectory.png \
+  --no-show
+```
+
+With `--no-show`, Qt uses its offscreen rendering backend, so export also works over SSH without a graphical session or manual `QT_QPA_PLATFORM` configuration. The process exits after writing the requested images. Supplying `--no-show` without either save option is a usage error. Omit `--no-show` to export and keep the interactive windows open.
+
 ```bash
 ground_vehicle_motion_plotter --help
 ```
 
-If validation fails, the program reports the file and failing field in the terminal. Profile indices in diagnostics start at zero.
+If validation fails, the program reports the file and failing field in the terminal. Profile indices in diagnostics start at zero. The executable returns 0 after successful export or normal window closure, 1 for profile or export errors, and 2 for incorrect CLI usage; help returns 0 without loading a profile or connecting to a display.
 
 ### 3. Execute the test in ROS 2
 
