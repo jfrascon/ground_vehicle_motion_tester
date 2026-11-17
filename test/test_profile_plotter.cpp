@@ -2,12 +2,15 @@
 
 #include <array>
 #include <cmath>
+#include <stdexcept>
 #include <vector>
 
 #include <QApplication>
 #include <QGridLayout>
+#include <QImage>
 #include <QPixmap>
 #include <QString>
+#include <QTemporaryDir>
 #include <QWidget>
 #include <qcustomplot.h>
 
@@ -79,6 +82,47 @@ TEST(ProfilePlotter, CreatesTheRequestedThreeByTwoSignalFigure)
       EXPECT_DOUBLE_EQ(plot->xAxis->range().upper, 2.0);
     }
   }
+}
+
+/** @test PNG exports render complete figures without making either window visible. */
+TEST(ProfilePlotter, ExportsBothFiguresWithoutShowingWindows)
+{
+  static_cast<void>(application());
+  gvmt::PlotterFigures figures{turning_samples(), "fixture.yaml"};
+  QTemporaryDir directory{};
+  ASSERT_TRUE(directory.isValid());
+  const auto velocity_path{directory.filePath("velocities.png")};
+  const auto trajectory_path{directory.filePath("trajectory.png")};
+  figures.save_velocity_profile(velocity_path.toStdString());
+  figures.save_trajectory(trajectory_path.toStdString());
+  const QImage velocities{velocity_path};
+  const QImage trajectory{trajectory_path};
+  ASSERT_FALSE(velocities.isNull());
+  ASSERT_FALSE(trajectory.isNull());
+  auto* velocity_window{window("profile_signals_window")};
+  auto* trajectory_window{window("profile_trajectory_window")};
+  ASSERT_NE(velocity_window, nullptr);
+  ASSERT_NE(trajectory_window, nullptr);
+  EXPECT_FALSE(velocity_window->isVisible());
+  EXPECT_FALSE(trajectory_window->isVisible());
+  EXPECT_EQ(velocities.size(), velocity_window->size());
+  EXPECT_EQ(trajectory.size(), trajectory_window->size());
+  auto* plot{trajectory_window->findChild<QCustomPlot*>("trajectory")};
+  ASSERT_NE(plot, nullptr);
+  EXPECT_NEAR(plot->xAxis->range().size() / plot->axisRect()->width(),
+              plot->yAxis->range().size() / plot->axisRect()->height(),
+              1e-12);
+}
+
+/** @test Unsupported extensions and destinations that cannot be written report export errors. */
+TEST(ProfilePlotter, RejectsInvalidExportDestinations)
+{
+  static_cast<void>(application());
+  gvmt::PlotterFigures figures{turning_samples(), "fixture.yaml"};
+  QTemporaryDir directory{};
+  ASSERT_TRUE(directory.isValid());
+  EXPECT_THROW(figures.save_velocity_profile(directory.filePath("figure.jpg").toStdString()), std::invalid_argument);
+  EXPECT_THROW(figures.save_trajectory(directory.filePath("missing/figure.png").toStdString()), std::runtime_error);
 }
 
 /** @test Every curve point has an equal-length vector aligned with its stored platform yaw. */
