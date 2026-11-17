@@ -202,6 +202,10 @@ Profile and numerical errors can therefore be reported before a graphical displa
 data. `PlotterFigures` receives these data and only handles their graphical presentation.
 The executable is installed under `bin/` and requires no ROS initialization or launch file.
 
+The CLI accepts independent `--save-vel-profile PATH.png` and `--save-trajectory PATH.png` options. `PlotterFigures::save_velocity_profile()` and `save_trajectory()` activate each figure's layout, replot its graphs, and render the complete widget into a PNG, preserving the trajectory's equal XY scale. Neither export method makes a window visible. Unsupported output extensions and failed writes produce explicit errors, and output directories are left under the caller's control.
+
+Without `--no-show`, the CLI shows both windows and keeps the Qt event loop active after any requested exports. With `--no-show`, it selects Qt's offscreen platform before constructing `QApplication`, renders the requested figures, and returns without starting the desktop event loop. CLI validation requires at least one output path in this mode. Invalid profiles are still rejected before Qt initialization.
+
 Regular plot samples are separated by 100 ms by default. Profile boundaries and each component's
 ramp completion are also included, even when they fall outside that regular grid.
 Acceleration is evaluated on the right side of a transition and drawn using duplicate event
