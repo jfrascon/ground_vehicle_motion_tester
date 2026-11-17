@@ -11,6 +11,7 @@
 #include <QColor>
 #include <QGridLayout>
 #include <QPen>
+#include <QPixmap>
 #include <QString>
 #include <QVector>
 #include <qcustomplot.h>
@@ -19,6 +20,32 @@ namespace ground_vehicle_motion_tester
 {
   namespace
   {
+    /**
+     * @brief Lay out a figure and render its children into a PNG without making it visible.
+     * @param figure Window whose current plots are exported.
+     * @param path Destination PNG path with an existing parent directory.
+     * @throws std::invalid_argument The output filename does not end in .png.
+     * @throws std::runtime_error Qt cannot write the image.
+     */
+    void save_png(QWidget& figure, const std::string& path)
+    {
+      const auto filename{QString::fromStdString(path)};
+      if(!filename.endsWith(".png", Qt::CaseInsensitive))
+      {
+        throw std::invalid_argument{"output filename must end in .png: " + path};
+      }
+      figure.ensurePolished();
+      figure.layout()->activate();
+      for(auto* plot: figure.findChildren<QCustomPlot*>())
+      {
+        plot->replot();
+      }
+      if(!figure.grab().save(filename, "PNG"))
+      {
+        throw std::runtime_error{"cannot save PNG image: " + path};
+      }
+    }
+
     /** @brief Select one numeric PreviewSample field for a velocity or acceleration graph. */
     using SignalValue = double PreviewSample::*;
 
@@ -241,5 +268,15 @@ namespace ground_vehicle_motion_tester
   {
     signals_window_.show();
     trajectory_window_.show();
+  }
+
+  void PlotterFigures::save_velocity_profile(const std::string& path)
+  {
+    save_png(signals_window_, path);
+  }
+
+  void PlotterFigures::save_trajectory(const std::string& path)
+  {
+    save_png(trajectory_window_, path);
   }
 }  // namespace ground_vehicle_motion_tester

@@ -150,6 +150,10 @@ if(BUILD_TESTING)
     test_profile_executor_ros PROPERTIES ENVIRONMENT "ROS_LOG_DIR=${CMAKE_CURRENT_BINARY_DIR}/ros_logs")
 
   ament_add_pytest_test(test_executor_launch test/test_executor_launch.py)
+  ament_add_pytest_test(test_plotter_cli test/test_plotter_cli.py)
+  set_tests_properties(
+    test_plotter_cli PROPERTIES
+    ENVIRONMENT "PLOTTER_EXECUTABLE=${CMAKE_CURRENT_BINARY_DIR}/ground_vehicle_motion_plotter")
 endif()
 
 ament_package()
